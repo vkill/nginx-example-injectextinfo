@@ -1,0 +1,5 @@
+/nginx_log_njs/*.log
+!/nginx_log_njs/.keep
+
+/test/server_log/*.log
+!/test/server_log/.keep

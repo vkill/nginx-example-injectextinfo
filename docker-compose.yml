@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  nginx-njs:
+    image: nginx:1.17-alpine
+    volumes:
+      - ./nginx_njs/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx_njs/stream.js:/etc/nginx/stream.js:ro
+      - ./nginx_log_njs:/var/log/nginx
+    ports:
+      - "17001-17002:17001-17002/tcp"
+      - "17001-17002:17001-17002/udp"
+
+  tcpserver:
+    image: ruby:2-alpine
+    volumes:
+      - ./test/tcpserver.rb:/opt/tcpserver.rb:ro
+      - ./test/server_log:/opt/server_log
+    command: ruby /opt/tcpserver.rb
+    ports:
+      - 17010:2000/tcp
+
+  udpserver:
+    image: ruby:2-alpine
+    volumes:
+      - ./test/udpserver.rb:/opt/udpserver.rb:ro
+      - ./test/server_log:/opt/server_log
+    command: ruby /opt/udpserver.rb
+    ports:
+      - 17010:2000/udp
